@@ -1,0 +1,71 @@
+
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dig_emb_mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sampledb
+      MYSQL_USER: digdag
+      MYSQL_PASSWORD: digdag
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - dig_emb_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      timeout: 20s
+      retries: 10
+
+  postgresql:
+    image: postgres:15
+    container_name: dig_emb_postgres
+    environment:
+      POSTGRES_DB: sampledb
+      POSTGRES_USER: digdag
+      POSTGRES_PASSWORD: digdag
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dig_emb_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U digdag -d sampledb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  digdag:
+    build: .
+    ports:
+      - "65432:65432"
+    volumes:
+      - ./digdag:/digdag
+      - ./embulk:/digdag/embulk
+      - ./data:/data
+      - ./middle_data:/middle_data
+      - ./sql:/digdag/sql
+    restart: unless-stopped
+    networks:
+      - dig_emb_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+
+
+
+volumes:
+  mysql_data:
+  postgres_data:
+
+networks:
+  dig_emb_network:
+    driver: bridge

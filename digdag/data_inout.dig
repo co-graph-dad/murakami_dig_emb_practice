@@ -1,0 +1,22 @@
+_export:
+  embulk:
+    command: ["embulk", "run"]
+timezone: Asia/Tokyo
+
++setup:
+  echo>: "Starting data import workflow"
+
++import_telecom_to_postgresql:
+  sh>: java -jar /usr/local/lib/embulk.jar run embulk/import_postgres_csv.yml
+
++create_view_table:
+  sh>: java -jar /usr/local/lib/embulk.jar run embulk/create_view_postgres.yml
+
++export_view_to_csv:
+  sh>: java -jar /usr/local/lib/embulk.jar run embulk/export_view_to_csv.yml
+
++import_csv_to_mysql:
+  sh>: java -jar /usr/local/lib/embulk.jar run embulk/import_csv_to_mysql.yml
+
++verify_complete:
+  echo>: "Data import, view creation, CSV export, and MySQL import completed successfully"

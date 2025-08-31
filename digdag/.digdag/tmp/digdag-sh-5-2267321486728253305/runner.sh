@@ -1,0 +1,1 @@
+java -jar /usr/local/lib/embulk.jar -Xembulk_home=/root/.embulk run embulk/export_view_to_csv.yml

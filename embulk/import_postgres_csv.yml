@@ -1,0 +1,42 @@
+in:
+  type: file
+  path_prefix: /data/telecom_customers.csv
+  parser:
+    type: csv
+    delimiter: ","
+    quote: '"'
+    escape: '"'
+    null_string: 'NULL'
+    skip_header_lines: 1
+    columns:
+      - {name: customer_id,        type: long}
+      - {name: contract_type,      type: string}
+      - {name: prefecture,         type: string}
+      - {name: age,                type: long}
+      - {name: gender,             type: string}
+      - {name: contract_date,      type: string}
+      - {name: plan_type,          type: string}
+      - {name: monthly_fee,        type: long}
+      - {name: device_type,        type: string}
+      - {name: network_type,       type: string}
+      - {name: data_usage_gb,      type: double}
+      - {name: call_minutes,       type: long}
+      - {name: payment_method,     type: string}
+      - {name: credit_score,       type: long}
+      - {name: family_size,        type: long}
+      - {name: annual_income,      type: long}
+      - {name: last_login_date,    type: string}
+      - {name: support_contacts,   type: long}
+      - {name: is_active,          type: boolean}
+      - {name: churn_risk_score,   type: double}
+
+out:
+  type: postgresql
+  host: postgresql
+  port: 5432
+  user: digdag
+  password: digdag
+  database: sampledb
+  table: telecom_customers
+  mode: replace
+  driver_path: /root/.embulk/lib/m2/repository/org/embulk/embulk-output-postgresql/0.10.6/postgresql-42.7.3.jar

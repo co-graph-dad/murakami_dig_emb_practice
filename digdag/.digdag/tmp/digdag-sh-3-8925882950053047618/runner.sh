@@ -1,0 +1,1 @@
+embulk run embulk/import_postgres_csv.yml

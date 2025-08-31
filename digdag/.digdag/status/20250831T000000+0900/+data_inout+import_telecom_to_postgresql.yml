@@ -1,0 +1,10 @@
+fullName: "+data_inout+import_telecom_to_postgresql"
+state: "success"
+result:
+  subtaskConfig: {}
+  exportParams: {}
+  resetStoreParams: []
+  storeParams: {}
+  report:
+    inputs: []
+    outputs: []

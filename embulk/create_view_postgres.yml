@@ -1,0 +1,80 @@
+in:
+  type: postgresql
+  host: postgresql
+  port: 5432
+  user: digdag
+  password: digdag
+  database: sampledb
+  query: |
+    SELECT 
+      customer_id,
+      contract_type,
+      prefecture,
+      age,
+      CASE 
+        WHEN age < 30 THEN 'Under_30'
+        WHEN age < 40 THEN 'Age_30s'
+        WHEN age < 50 THEN 'Age_40s'
+        WHEN age < 60 THEN 'Age_50s'
+        ELSE 'Over_60'
+      END as age_group,
+      gender,
+      contract_date,
+      plan_type,
+      monthly_fee,
+      CASE 
+        WHEN monthly_fee < 3000 THEN 'Low_Fee'
+        WHEN monthly_fee < 7000 THEN 'Standard_Fee'
+        WHEN monthly_fee < 10000 THEN 'High_Fee'
+        ELSE 'Premium_Fee'
+      END as fee_category,
+      device_type,
+      network_type,
+      data_usage_gb,
+      CASE 
+        WHEN data_usage_gb < 10 THEN 'Light_Usage'
+        WHEN data_usage_gb < 30 THEN 'Standard_Usage'
+        WHEN data_usage_gb < 50 THEN 'Heavy_Usage'
+        ELSE 'Super_Heavy_Usage'
+      END as usage_category,
+      call_minutes,
+      payment_method,
+      credit_score,
+      family_size,
+      annual_income,
+      CASE 
+        WHEN annual_income < 3000000 THEN 'Low_Income'
+        WHEN annual_income < 6000000 THEN 'Mid_Income'
+        WHEN annual_income < 10000000 THEN 'High_Income'
+        ELSE 'Super_High_Income'
+      END as income_category,
+      last_login_date,
+      support_contacts,
+      is_active,
+      churn_risk_score,
+      CASE 
+        WHEN churn_risk_score < 0.3 THEN 'Stable_Customer'
+        WHEN churn_risk_score < 0.5 THEN 'At_Risk_Customer'
+        WHEN churn_risk_score < 0.7 THEN 'High_Risk_Customer'
+        ELSE 'Super_High_Risk_Customer'
+      END as risk_category,
+      CASE 
+        WHEN monthly_fee >= 10000 AND churn_risk_score < 0.3 THEN 'Premium_Stable'
+        WHEN monthly_fee >= 10000 AND churn_risk_score >= 0.3 THEN 'Premium_At_Risk'
+        WHEN monthly_fee >= 5000 AND churn_risk_score < 0.5 THEN 'Mid_Stable'
+        WHEN monthly_fee >= 5000 AND churn_risk_score >= 0.5 THEN 'Mid_At_Risk'
+        ELSE 'Entry_Level'
+      END as customer_segment
+    FROM telecom_customers
+  driver_path: /root/.embulk/lib/m2/repository/org/embulk/embulk-input-postgresql/0.13.2/postgresql-42.7.3.jar
+
+out:
+  type: postgresql
+  host: postgresql
+  port: 5432
+  user: digdag
+  password: digdag
+  database: sampledb
+  table: view_telecom_customers
+  mode: replace
+  driver_path: /root/.embulk/lib/m2/repository/org/embulk/embulk-input-postgresql/0.13.2/postgresql-42.7.3.jar

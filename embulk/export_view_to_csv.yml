@@ -1,0 +1,23 @@
+in:
+  type: postgresql
+  host: postgresql
+  port: 5432
+  user: digdag
+  password: digdag
+  database: sampledb
+  table: view_telecom_customers
+  driver_path: /root/.embulk/lib/m2/repository/org/embulk/embulk-input-postgresql/0.13.2/postgresql-42.7.3.jar
+
+out:
+  type: file
+  path_prefix: /middle_data/middle_telecom_customers
+  file_ext: csv
+  formatter:
+    type: csv
+    header_line: true
+    delimiter: ','
+    quote_policy: ALL
+    quote: '"'
+    escape: '"'
+    newline: CRLF
+    charset: UTF-8

@@ -1,0 +1,10 @@
+fullName: "+data_inout+create_view_table"
+state: "success"
+result:
+  subtaskConfig: {}
+  exportParams: {}
+  resetStoreParams: []
+  storeParams: {}
+  report:
+    inputs: []
+    outputs: []

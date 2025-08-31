@@ -1,0 +1,1 @@
+java -jar /usr/local/lib/embulk.jar run embulk/import_csv_to_mysql.yml

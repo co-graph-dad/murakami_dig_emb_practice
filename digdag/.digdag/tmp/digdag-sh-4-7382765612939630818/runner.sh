@@ -1,0 +1,1 @@
+java -jar /usr/local/lib/embulk.jar run embulk/create_view_postgres.yml

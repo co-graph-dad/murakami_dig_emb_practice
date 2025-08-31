@@ -1,0 +1,49 @@
+in:
+  type: file
+  path_prefix: /middle_data/middle_telecom_customers
+  file_ext: csv
+  parser:
+    type: csv
+    delimiter: ","
+    quote: '"'
+    escape: '"'
+    null_string: 'NULL'
+    skip_header_lines: 1
+    columns:
+      - {name: customer_id,              type: long}
+      - {name: contract_type,            type: string}
+      - {name: prefecture,               type: string}
+      - {name: age,                      type: long}
+      - {name: age_group,                type: string}
+      - {name: gender,                   type: string}
+      - {name: contract_date,            type: string}
+      - {name: plan_type,                type: string}
+      - {name: monthly_fee,              type: long}
+      - {name: fee_category,             type: string}
+      - {name: device_type,              type: string}
+      - {name: network_type,             type: string}
+      - {name: data_usage_gb,            type: double}
+      - {name: usage_category,           type: string}
+      - {name: call_minutes,             type: long}
+      - {name: payment_method,           type: string}
+      - {name: credit_score,             type: long}
+      - {name: family_size,              type: long}
+      - {name: annual_income,            type: long}
+      - {name: income_category,          type: string}
+      - {name: last_login_date,          type: string}
+      - {name: support_contacts,         type: long}
+      - {name: is_active,                type: boolean}
+      - {name: churn_risk_score,         type: double}
+      - {name: risk_category,            type: string}
+      - {name: customer_segment,         type: string}
+
+out:
+  type: mysql
+  host: mysql
+  port: 3306
+  user: digdag
+  password: digdag
+  database: sampledb
+  table: middle_telecom_customers
+  mode: insert
+  create_table_if_not_exists: true
